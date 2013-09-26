@@ -18,11 +18,24 @@ module AnalysisHelper
 
     def initialize request_data
       @request_data = request_data
+    end 
+
+    def keywords
+      grep_keywords(@request_data) 
     end
 
     def engine_name
-      'google'
+      grep_engine_name(@request_data)
     end 
+
+  private
+    def grep_keywords request_data 
+      'whst.gov.cn'
+    end
+
+    def grep_engine_name request_data 
+      'google'
+    end
 
   end
 end

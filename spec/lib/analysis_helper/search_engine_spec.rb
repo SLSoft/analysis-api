@@ -9,7 +9,11 @@ describe AnalysisHelper::SearchEngine do
     expect(AnalysisHelper::ENGINES).to_not be_nil
   end
 
-  it "can find engine name from the source url" do 
+  it "can grep search keywords from the source url" do 
+    expect(engine.keywords).to eq 'whst.gov.cn'
+  end
+
+  it "can grep engine name from the source url" do 
     expect(engine.engine_name).to eq 'google'
   end
 end
