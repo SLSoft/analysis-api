@@ -1,41 +1,45 @@
-module AnalysisHelper
-  ENGINES = [
-              ["google", "utf8", "q"],
-              ["baidu", "gb2312", "(?:wd|word)"],
-              ["yahoo", "utf8", "p"],
-              ["bing", "utf8", "q"],
-              ["youdao", "utf8", "q"],
-              ["live", "utf8", "q"],
-              ["360", "utf8", "q"],
-              ["soso", "utf8", "(?:w|key)"],
-              ["163", "gb2312", "q"],
-              ["sogou", "gb2312", "query"],
-              ["iask", "gb2312", "q"],
-              ["lycos", "utf8", "q"]
-            ]
+module AnalysisHelper 
 
-  class SearchEngine
+  module EngineHelper 
+    ENGINES = [
+                ["google", "utf8", "q"],
+                ["baidu", "gb2312", "wd"],
+                ["yahoo", "utf8", "p"],
+                ["bing", "utf8", "q"],
+                ["youdao", "utf8", "q"],
+                ["live", "utf8", "q"],
+                ["360", "utf8", "q"],
+                ["soso", "utf8", "w"],
+                ["163", "gb2312", "q"],
+                ["sogou", "gb2312", "query"],
+                ["iask", "gb2312", "q"],
+                ["lycos", "utf8", "q"]
+              ] 
 
-    def initialize request_data
-      @request_data = request_data
+    class << self
+      def grep_engine_name upper_url  
+        grep_from_url(upper_url) { |engine| engine[0] }
+      end
+      alias is_from_engine? grep_engine_name
+
+      def grep_keywords upper_url
+        re = /(\?|&)#{grep_search_type(upper_url)}=(.*?)(?:&|$)/
+        matcher = re.match upper_url 
+
+        matcher[2]
+      end
+
+      private
+      def grep_search_type upper_url 
+        grep_from_url(upper_url) { |engine| engine[2] }
+      end
+
+      def grep_from_url upper_url
+        ENGINES.each do |engine| 
+          return yield engine if upper_url.include? engine[0]
+        end 
+        nil 
+      end 
     end 
-
-    def keywords
-      grep_keywords(@request_data) 
-    end
-
-    def engine_name
-      grep_engine_name(@request_data)
-    end 
-
-  private
-    def grep_keywords request_data 
-      'whst.gov.cn'
-    end
-
-    def grep_engine_name request_data 
-      'google'
-    end
-
-  end
+  end 
 end
