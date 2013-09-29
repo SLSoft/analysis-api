@@ -1,5 +1,4 @@
 module AnalysisHelper 
-
   module EngineHelper 
     ENGINES = [
                 ["google", "utf8", "q"],
@@ -26,13 +25,13 @@ module AnalysisHelper
         re = /(\?|&)#{grep_search_type(upper_url)}=(.*?)(?:&|$)/
         matcher = re.match upper_url 
 
-        matcher[2]
+        matcher[2].split('+')
       end
 
       private
       def grep_search_type upper_url 
         grep_from_url(upper_url) { |engine| engine[2] }
-      end
+      end 
 
       def grep_from_url upper_url
         ENGINES.each do |engine| 
@@ -40,6 +39,9 @@ module AnalysisHelper
         end 
         nil 
       end 
+
+      def split_keywords keywords 
+      end
     end 
   end 
 end

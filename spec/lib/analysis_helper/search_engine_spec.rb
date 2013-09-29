@@ -23,8 +23,12 @@ module AnalysisHelper
           expect(EngineHelper.grep_engine_name "www.google.com/search?q=hello").to eq 'google'
         end
 
-        it "can grep search keywords google" do 
-          expect(EngineHelper.grep_keywords "www.google.com/search?q=google").to eq 'google'
+        it "can grep single search keyword google" do 
+          expect(EngineHelper.grep_keywords "www.google.com/search?q=google").to eq [ 'google' ]
+        end
+
+        it "can grep multiple search keywords" do
+          expect(EngineHelper.grep_keywords "www.google.com/search?q=google+hello+world").to eq ['google', 'hello', 'world']
         end
       end
 
@@ -33,10 +37,14 @@ module AnalysisHelper
           expect(EngineHelper.grep_engine_name "www.baidu.com/search?wd=hello").to eq 'baidu'
         end
 
-        it "can grep search keywords baidu" do 
-          expect(EngineHelper.grep_keywords "www.baidu.com/search?wd=baidu").to eq 'baidu'
+        it "can grep single search keywords baidu" do 
+          expect(EngineHelper.grep_keywords "www.baidu.com/search?wd=baidu").to eq [ 'baidu' ]
         end 
+
+        it "can grep multiple search keywords" do
+          expect(EngineHelper.grep_keywords "www.baidu.com/search?wd=baidu+hello+world").to eq ['baidu', 'hello', 'world']
+        end
       end
-    end
+    end 
   end
 end
